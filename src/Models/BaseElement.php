@@ -899,20 +899,6 @@ JS
     }
 
     /**
-     * Get a description for this content element, if available
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        $description = $this->config()->uninherited('description');
-        if ($description) {
-            return _t(__CLASS__ . '.Description', $description);
-        }
-        return '';
-    }
-
-    /**
      * Generate markup for element type, with description suitable for use in
      * GridFields.
      *
@@ -920,7 +906,10 @@ JS
      */
     public function getTypeNice()
     {
-        $description = $this->getDescription();
+        $description = $this->config()->uninherited('description');
+        if ($description) {
+            $description = _t(__CLASS__ . '.Description', $description);
+        }
         $desc = ($description) ? ' <span class="element__note"> &mdash; ' . $description . '</span>' : '';
 
         return DBField::create_field(
