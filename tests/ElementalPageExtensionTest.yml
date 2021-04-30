@@ -3,6 +3,8 @@ DNADesign\Elemental\Models\ElementalArea:
     Title: Area 51
   area52:
     Title: Area 52
+  area53:
+    Title: Area 53
 DNADesign\Elemental\Models\ElementContent:
   content1:
     Title: Test Content
@@ -16,6 +18,16 @@ DNADesign\Elemental\Models\ElementContent:
     Title: More third content
     Sort: 1
     ParentID: =>DNADesign\Elemental\Models\ElementalArea.area52
+  content4:
+    Title: Paragraph content
+    Sort: 1
+    HTML: '<p>One paragraph</p><p>And another one</p>'
+    ParentID: =>DNADesign\Elemental\Models\ElementalArea.area53
+  content5:
+    Title: More paragraph content
+    Sort: 1
+    HTML: '<p>More paragraphs</p><p>And yet more</p>'
+    ParentID: =>DNADesign\Elemental\Models\ElementalArea.area53
 DNADesign\Elemental\Tests\Src\TestPage:
   elementaldemo:
     Title: Test Elemental
@@ -26,6 +38,9 @@ DNADesign\Elemental\Tests\Src\TestPage:
   page_with_one_element:
     Title: Page with one elements
     ElementalAreaID: =>DNADesign\Elemental\Models\ElementalArea.area52
+  page_with_html_elements:
+    Title: Page with html elements
+    ElementalAreaID: =>DNADesign\Elemental\Models\ElementalArea.area53
 SilverStripe\CMS\Model\RedirectorPage:
   elementredirectpage:
     Title: Redirector Page

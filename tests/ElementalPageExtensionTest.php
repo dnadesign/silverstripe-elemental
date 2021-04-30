@@ -97,4 +97,21 @@ class ElementalPageExtensionTest extends FunctionalTest
             'Duplicated page has duplicated area and duplicated elements, i.e. not shared'
         );
     }
+
+    public function testGetElementsForSearch()
+    {
+        /** @var TestPage $page */
+        $page = $this->objFromFixture(TestPage::class, 'page_with_html_elements');
+        $output = $page->getElementsForSearch();
+        $this->assertNotEmpty($output);
+
+        // Confirm tags have been stripped
+        $this->assertNotContains('<p>', $output);
+        $this->assertNotContains('</p>', $output);
+
+        // Confirm paragraphs don't get smushed together, also across elements
+        $this->assertNotContains('paragraphAnd', $output);
+        $this->assertNotContains('oneMore', $output);
+        $this->assertNotContains('paragraphsAnd', $output);
+    }
 }
