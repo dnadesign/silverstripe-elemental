@@ -292,6 +292,19 @@ The Solr search results may add in emphasis tags or other formatting around matc
 to allow unescaped HTML in your search results template. You should use the `$Excerpt` property (see
 `SolrIndex::search` for more) to display the relevant search matches.
 
+### Disabling CMS content search
+
+When installing this module, the page model admin search will look for a term in the entire content of each elemental pages.
+This is done by rendering each page, which can be resource hungry and make the search timeout.
+
+You can disable this with YAML configuration:
+
+```yaml
+# File: mysite/_config/elements.yml
+DNADesign\Elemental\Controllers\ElementSiteTreeFilterSearch:
+  search_for_term_in_content: false
+```
+
 ### Usage of GridField
 
 This module used to use GridField to create and update Elements in the CMS. This has now been largely succeeded by a JavaScript interface via React. However elements that are marked as being incompatible with in-line editing will still use the GridField method.

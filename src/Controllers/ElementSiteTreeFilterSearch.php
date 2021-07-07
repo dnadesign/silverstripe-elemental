@@ -5,15 +5,21 @@ namespace DNADesign\Elemental\Controllers;
 use DNADesign\Elemental\Extensions\ElementalPageExtension;
 use SilverStripe\CMS\Controllers\CMSSiteTreeFilter_Search;
 use SilverStripe\CMS\Model\SiteTree;
-use SilverStripe\Core\Config\Config;
+use SilverStripe\Core\Config\Configurable;
 use SilverStripe\Core\Convert;
 use SilverStripe\Forms\DateField;
 use SilverStripe\ORM\ArrayList;
 use SilverStripe\ORM\DataList;
-use SilverStripe\View\SSViewer;
 
 class ElementSiteTreeFilterSearch extends CMSSiteTreeFilter_Search
 {
+    use Configurable;
+
+    /**
+     * @var boolean
+     */
+    private static $search_for_term_in_content = true;
+
     /**
      * @var array
      */
@@ -29,7 +35,7 @@ class ElementSiteTreeFilterSearch extends CMSSiteTreeFilter_Search
     protected function applyDefaultFilters($query)
     {
         // If not filtering by a Term then skip this altogether
-        if (empty($this->params['Term'])) {
+        if (empty($this->params['Term']) || $this->config()->get('search_for_term_in_content') === false) {
             return parent::applyDefaultFilters($query);
         }
 
