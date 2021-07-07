@@ -25,7 +25,7 @@ use SilverStripe\Versioned\Versioned;
 class ElementalArea extends DataObject
 {
     private static $db = [
-        'OwnerClassName' => 'Varchar(255)',
+        'OwnerClassName' => 'DBClassName("SilverStripe\\\\ORM\\\\DataObject")',
     ];
 
     private static $has_many = [
@@ -210,7 +210,7 @@ class ElementalArea extends DataObject
                 $table = DataObject::getSchema()->tableForField($class, $areaID);
                 $baseTable = DataObject::getSchema()->baseDataTable($class);
                 $page = DataObject::get_one($class, [
-                    "\"{$table}\".\"{$areaID}\" = ?" => $this->ID,
+                    "\"{$table}\".\"{$areaID}\" = ?"     => $this->ID,
                     "\"{$baseTable}\".\"ClassName\" = ?" => $class
                 ]);
 
