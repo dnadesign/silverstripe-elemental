@@ -202,7 +202,11 @@ class ElementalAreasExtension extends DataExtension
 
             $editor = ElementalAreaField::create($eaRelationship, $area, $this->getElementalTypes());
 
-            if ($this->owner instanceof SiteTree && $fields->findOrMakeTab('Root.Main')->fieldByName('Metadata')) {
+            $insertBefore = Config::inst()->get(get_class($this->owner), 'insert_before_field_name');
+            
+            if ($insertBefore && $fields->dataFieldByName($insertBefore)) {
+                $fields->insertBefore($insertBefore, $editor);
+            } else if ($this->owner instanceof SiteTree && $fields->findOrMakeTab('Root.Main')->fieldByName('Metadata')) {
                 $fields->addFieldToTab('Root.Main', $editor, 'Metadata');
             } else {
                 $fields->addFieldToTab('Root.Main', $editor);
