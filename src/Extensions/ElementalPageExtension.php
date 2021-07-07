@@ -3,6 +3,7 @@
 namespace DNADesign\Elemental\Extensions;
 
 use DNADesign\Elemental\Models\ElementalArea;
+use SilverStripe\CMS\Model\SiteTree;
 use SilverStripe\Control\Controller;
 use SilverStripe\View\Parsers\HTML4Value;
 use SilverStripe\View\SSViewer;
@@ -32,6 +33,25 @@ class ElementalPageExtension extends ElementalAreasExtension
      */
     public function getElementsForSearch()
     {
+        return strip_tags($this->createHtml());
+    }
+
+    /**
+     * @param array $anchors
+     *
+     * @see SiteTree::getAnchorsOnPage()
+     */
+    public function updateAnchorsOnPage(array &$anchors): void
+    {
+        if (!($this->owner instanceof SiteTree)) {
+            return;
+        }
+        $content = $this->createHtml();
+        $anchors = array_merge($anchors, $this->owner->getAnchorsInContent($content));
+    }
+
+    private function createHtml()
+    {
         $oldThemes = SSViewer::get_themes();
         SSViewer::set_themes(SSViewer::config()->get('themes'));
         try {
@@ -43,7 +63,7 @@ class ElementalPageExtension extends ElementalAreasExtension
                 /** @var ElementalArea $area */
                 $area = $this->owner->$key();
                 if ($area) {
-                    $output[] = strip_tags($area->forTemplate());
+                    $output[] = $area->forTemplate();
                 }
             }
         } finally {
