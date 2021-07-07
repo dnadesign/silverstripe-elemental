@@ -43,7 +43,8 @@ class ElementalPageExtension extends ElementalAreasExtension
                 /** @var ElementalArea $area */
                 $area = $this->owner->$key();
                 if ($area) {
-                    $output[] = strip_tags($area->forTemplate());
+                    // Replace HTML tags with spaces
+                    $output[] = strip_tags(str_replace('<', ' <', $area->forTemplate()));
                 }
             }
         } finally {
