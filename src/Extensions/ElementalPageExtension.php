@@ -24,6 +24,12 @@ class ElementalPageExtension extends ElementalAreasExtension
     private static $cascade_duplicates = [
         'ElementalArea',
     ];
+    
+    /**
+     * Exclude blocks, by classname, from being indexed.
+     * @var array
+     */
+    private static $elements_excluded_from_search = [];
 
     /**
      * Returns the contents of each ElementalArea has_one's markup for use in Solr or Elastic search indexing
@@ -43,7 +49,16 @@ class ElementalPageExtension extends ElementalAreasExtension
                 /** @var ElementalArea $area */
                 $area = $this->owner->$key();
                 if ($area) {
-                    $output[] = strip_tags($area->forTemplate());
+                    // Only render the elemental blocks which are not excluded from search and don't pull from a page.
+                    foreach ($area->Elements() as $element) {
+                        if (!in_array($element->ClassName, Config::inst()->get(static::class, 'elements_excluded_from_search'))) {
+                            $forIndexing = $element->forTemplate();
+                            $element->extend('updateElementForSearch', $forIndexing);
+                            if ($forIndexing) {
+                                $output[] = $forIndexing;
+                            }
+                        }
+                    }
                 }
             }
         } finally {
