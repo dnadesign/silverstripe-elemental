@@ -16,7 +16,7 @@
     "minimum-stability": "dev",
     "prefer-stable": true,
     "require": {
-        "php": "^7.1",
+        "php": "^7.1 || ^8.0",
         "silverstripe/cms": "^4.7@dev",
         "silverstripe/admin": "^1.7@dev",
         "silverstripe/versioned": "^1.7@dev",
