@@ -90,6 +90,10 @@ class BaseElement extends DataObject
         'canUnpublish' => DBBoolean::class,
         'canDelete' => DBBoolean::class,
     ];
+    
+    private static $indexes = [
+        'Sort' => true,
+    ];
 
     private static $versioned_gridfield_extensions = true;
 
@@ -345,7 +349,7 @@ class BaseElement extends DataObject
 
                 $fields->insertBefore($styleDropdown, 'ExtraClass');
 
-                $styleDropdown->setEmptyString(_t(__CLASS__.'.CUSTOM_STYLES', 'Select a style..'));
+                $styleDropdown->setEmptyString(_t(__CLASS__.'.CUSTOM_STYLES', 'Select a style...'));
             } else {
                 $fields->removeByName('Style');
             }
